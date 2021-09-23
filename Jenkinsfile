@@ -7,7 +7,7 @@ pipeline {
 
   }
   stages {
-    stage('Build') {
+    stage('build ap') {
       parallel {
         stage('Build') {
           steps {
@@ -24,7 +24,7 @@ pipeline {
       }
     }
 
-    stage('Test') {
+    stage('rename image') {
       environment {
         CI = 'true'
       }
@@ -33,11 +33,23 @@ pipeline {
       }
     }
 
-    stage('Deliver') {
+    stage('checksum') {
       steps {
         sh './jenkins/scripts/deliver.sh'
         input 'Finished using the web site? (Click "Proceed" to continue)'
         sh './jenkins/scripts/kill.sh'
+      }
+    }
+
+    stage('checkmd5') {
+      steps {
+        sh 'echo "checkmd5"'
+      }
+    }
+
+    stage('upload') {
+      steps {
+        sh 'echo "upload"'
       }
     }
 
